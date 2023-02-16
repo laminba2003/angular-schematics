@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "NewModuleSchematic",
+    "title": "ng new options schema",
+    "type": "object",
+    "description": "Initialise a new module",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "The name of the project",
+        "x-prompt": "Name:",
+        "$default": {
+          "$source": "argv",
+          "index": 0
+        }
+      } 
+    }
+   }
