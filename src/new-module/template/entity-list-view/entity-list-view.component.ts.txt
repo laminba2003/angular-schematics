@@ -1,0 +1,53 @@
+import { Component, OnInit } from '@angular/core';
+import { Entity } from './../../../model/entity';
+import { EntityDetailsComponent } from '../entity-details/entity-details.component';
+import { DeleteEntity, GetEntity, GetEntitys, SearchEntitys } from './../entity.actions';
+import { ListViewComponent } from '../../../components/ListViewComponent';
+
+@Component({
+  selector: 'app-entity-list-view',
+  templateUrl: './entity-list-view.component.html',
+  styleUrls: ['./entity-list-view.component.css']
+})
+export class EntityListViewComponent extends ListViewComponent<Entity> implements OnInit {
+
+  constructor() {
+    super({ page: (state) => state.entitystate.page, entity: (state) => state.entitystate.entity },
+      () => { return this.getEntitys() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    const id = Number(this.getParam('id'));
+    if (id) {
+      this.getEntity(id);
+    }
+  }
+
+  getEntitys(): void {
+    this.getEntities(new GetEntitys(this.page.number, this.page.size));
+  }
+
+  getEntity(id: number): void {
+    this.getEntity(new GetEntity(id), EntityDetailsComponent);
+  }
+
+  editEntity(id: number, event: Event): void {
+    this.editEntity(new GetEntity(id), EntityDetailsComponent, event);
+  }
+
+  deleteEntity(id: number, event: Event): void {
+    this.deleteEntity(new DeleteEntity(id), event);
+  }
+
+  override handleSorting(): void {
+    this.dataSource.sortingDataAccessor = (entity, property) => {
+      return property == 'country' ? entity.country.name : this.getProperty(entity, property as keyof Entity);
+    };
+  }
+
+  override handleSearch(query: string): void {
+    this.getEntities(new SearchEntitys(query, this.page.number, this.page.size));
+  }
+
+}

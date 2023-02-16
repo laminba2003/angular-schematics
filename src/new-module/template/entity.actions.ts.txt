@@ -1,0 +1,31 @@
+import { Entity } from '../../model/entity';
+
+export class GetEntitys {
+    static readonly type = '[Entitys] Fetch';
+    constructor(public pageNumber : number, public pageSize : number ) { }
+}
+
+export class GetEntity {
+    static readonly type = '[Entity] Fetch';
+    constructor(public id : number) { }
+}
+
+export class AddEntity {
+    static readonly type = '[Entity] Add';
+    constructor(public payload: Entity) { }
+}
+
+export class UpdateEntity {
+    static readonly type = '[Entity] Update';
+    constructor(public payload: Entity, public id: number) { }
+}
+
+export class DeleteEntity {
+    static readonly type = '[Entity] Delete';
+    constructor(public id: number) { }
+}
+
+export class SearchEntitys {
+    static readonly type = '[Entitys] Search';
+    constructor(public query: string, public pageNumber : number, public pageSize : number) { }
+}
