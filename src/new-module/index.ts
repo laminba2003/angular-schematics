@@ -1,5 +1,5 @@
 import { join, normalize } from '@angular-devkit/core';
-import { apply, asSource, chain, FileEntry, forEach, MergeStrategy, mergeWith, move, Rule, SchematicContext, SchematicsException, Source, Tree, url } from '@angular-devkit/schematics';
+import { apply, chain, FileEntry, forEach, MergeStrategy, mergeWith, move, Rule, SchematicContext, SchematicsException, Source, Tree, url } from '@angular-devkit/schematics';
 import { render, createContext } from '@scaffdog/engine';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import * as ts from 'typescript';

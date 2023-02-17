@@ -30,7 +30,7 @@
                         <i class="fas fa-edit"></i>
                     </button>
 
-                    <button (click)="deleteEntity(entity.<%primaryKey%>, $event)" *ngIf="auth.hasRoles(['manage-account', 'admin']) | async"
+                    <button (click)="deleteEntity(entity.<%primaryKey%>, $event)" *ngIf="auth.hasRoles([]) | async"
                         class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button">
                         <i class="fas fa-trash"></i>

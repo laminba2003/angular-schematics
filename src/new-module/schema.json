@@ -8,11 +8,7 @@
       "entity": {
         "type": "string",
         "description": "the name of the entity?",
-        "x-prompt": "What is the name of the entity?",
-        "$default": {
-          "$source": "argv",
-          "index": 0
-        }
+        "x-prompt": "What is the name of the entity?"
       },
       "plural": {
         "type": "string",
