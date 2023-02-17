@@ -11,42 +11,26 @@
 
 <div class="flex flex-nowrap">
     <table mat-table [dataSource]="dataSource" matSort  class="w-full">
-        <ng-container matColumnDef="id">
+        <% for column in displayedColumns %>
+        <ng-container matColumnDef="<%column%>>">
             <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> No. </th>
-            <td mat-cell *matCellDef="let entity" class="text-sm cursor-pointer" (click)="getEntity(entity.id)">
-                {{entity.id}} </td>
+            <td mat-cell *matCellDef="let entity" class="text-sm cursor-pointer" (click)="getEntity(entity.<%primaryKey%>)">
+                {{entity.<%column%>}} </td>
         </ng-container>
-        <!-- Name Column -->
-        <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> First Name </th>
-            <td mat-cell *matCellDef="let entity" class="text-sm cursor-pointer" (click)="getEntity(entity.id)">
-                {{entity.firstName}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> Last Name </th>
-            <td mat-cell *matCellDef="let entity" class="text-sm cursor-pointer" (click)="getEntity(entity.id)">
-                {{entity.lastName}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="country">
-            <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> Country </th>
-            <td mat-cell *matCellDef="let entity" class="text-sm cursor-pointer" (click)="getEntity(entity.id)">
-                {{entity.country.name}} </td>
-        </ng-container>
-
+        <% end %>
+       
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef class="text-sm"> </th>
-            <td mat-cell *matCellDef="let entity" class="text-sm  cursor-pointer" (click)="getEntity(entity.id)">
+            <td mat-cell *matCellDef="let entity" class="text-sm  cursor-pointer" (click)="getEntity(entity.<%primaryKey%>)">
 
                 <div class="float-right">
-                    <button (click)="editEntity(entity.id, $event);"
+                    <button (click)="editEntity(entity.<%primaryKey%>, $event);"
                         class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button">
                         <i class="fas fa-edit"></i>
                     </button>
 
-                    <button (click)="deleteEntity(entity.id, $event)" *ngIf="auth.hasRoles(['manage-account', 'admin']) | async"
+                    <button (click)="deleteEntity(entity.<%primaryKey%>, $event)" *ngIf="auth.hasRoles(['manage-account', 'admin']) | async"
                         class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button">
                         <i class="fas fa-trash"></i>

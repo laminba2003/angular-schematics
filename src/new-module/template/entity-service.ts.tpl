@@ -17,12 +17,12 @@ export class EntityService {
     return this.httpClient.get<Page<Entity>>(this.backendUrl, { params: { page: page, size: size } });
   }
 
-  getEntity(id: number): Observable<Entity> {
-    return this.httpClient.get<Entity>(this.backendUrl + "/" + id);
+  getEntity(<%primaryKey%>: <%primaryKeyType%>): Observable<Entity> {
+    return this.httpClient.get<Entity>(this.backendUrl + "/" + <%primaryKey%>);
   }
 
-  deleteEntity(id: number): Observable<any> {
-    return this.httpClient.delete(this.backendUrl + "/" + id);
+  deleteEntity(<%primaryKey%>: <%primaryKeyType%>): Observable<any> {
+    return this.httpClient.delete(this.backendUrl + "/" + <%primaryKey%>);
   }
 
   searchEntitys(query: string, page: number, size: number = 5): Observable<Page<Entity>> {

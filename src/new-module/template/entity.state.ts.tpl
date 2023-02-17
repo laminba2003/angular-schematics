@@ -32,8 +32,8 @@ export class EntityState {
     }
 
     @Action(GetEntity)
-    getEntity(ctx: StateContext<EntityStateModel>, { id }: GetEntity) {
-        return this.entityService.getEntity(id).pipe(tap(entity => {
+    getEntity(ctx: StateContext<EntityStateModel>, { <%primaryKey%> }: GetEntity) {
+        return this.entityService.getEntity(<%primaryKey%>).pipe(tap(entity => {
             ctx.patchState({
                 entity: entity
             });
@@ -41,11 +41,11 @@ export class EntityState {
     }
 
     @Action(DeleteEntity)
-    deleteEntity(ctx: StateContext<EntityStateModel>, { id }: DeleteEntity) {
-        return this.entityService.deleteEntity(id).pipe(tap(() => {
+    deleteEntity(ctx: StateContext<EntityStateModel>, { <%primaryKey%> }: DeleteEntity) {
+        return this.entityService.deleteEntity(<%primaryKey%>).pipe(tap(() => {
             const state = ctx.getState();
             const page = state.page;
-            page.content = page.content.filter(entity => entity.id !== id);
+            page.content = page.content.filter(entity => entity.<%primaryKey%> !== <%primaryKey%>);
             page.totalElements--;
             ctx.patchState({
                 page: page

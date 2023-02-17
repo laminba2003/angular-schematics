@@ -7,7 +7,7 @@ export class GetEntitys {
 
 export class GetEntity {
     static readonly type = '[Entity] Fetch';
-    constructor(public id : number) { }
+    constructor(public <%primaryKey%>: <%primaryKeyType%>) { }
 }
 
 export class AddEntity {
@@ -17,12 +17,12 @@ export class AddEntity {
 
 export class UpdateEntity {
     static readonly type = '[Entity] Update';
-    constructor(public payload: Entity, public id: number) { }
+    constructor(public payload: Entity, public <%primaryKey%>: <%primaryKeyType%>) { }
 }
 
 export class DeleteEntity {
     static readonly type = '[Entity] Delete';
-    constructor(public id: number) { }
+    constructor(public <%primaryKey%>: <%primaryKeyType%>) { }
 }
 
 export class SearchEntitys {

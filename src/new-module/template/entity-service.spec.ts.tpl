@@ -3,7 +3,7 @@ import { EntityService } from './entity-service';
 
 
 
-describe('EntityServiceService', () => {
+describe('EntityService', () => {
   let service: EntityService;
 
   beforeEach(() => {

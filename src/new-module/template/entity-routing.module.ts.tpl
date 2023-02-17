@@ -6,11 +6,11 @@ const routes: Routes = [{
   path: '', component: EntityListViewComponent,
 },
 {
-  path: ':id', component: EntityListViewComponent
+  path: ':<%primaryKey%>', component: EntityListViewComponent
 }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class EntitysRoutingModule { }
+export class EntityRoutingModule { }

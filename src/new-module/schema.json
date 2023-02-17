@@ -5,14 +5,56 @@
     "type": "object",
     "description": "Initialise a new module",
     "properties": {
-      "name": {
+      "entity": {
         "type": "string",
-        "description": "The name of the project",
-        "x-prompt": "Name:",
+        "minLength": 1,
+        "description": "the name of the entity?",
+        "x-prompt": "What is the name of the entity?",
         "$default": {
           "$source": "argv",
           "index": 0
+        },
+        "required": [ "the name of the entity is required?" ]
+      },
+      "plural": {
+        "type": "string",
+        "minLength": 1,
+        "description": "the plural name of the entity?",
+        "x-prompt": "what is the plural name of the entity?",
+        "required": [ "the plural name of the entity is required?" ]
+      },
+      "displayedColumns": {
+        "type": "string",
+        "minLength": 1,
+        "description": "The name of the columns.",
+        "x-prompt": "What is the name of the columns? [comma-separated]",
+        "required": [ "the name of the columns is required?" ]
+      },
+      "primaryKey": {
+        "type": "string",
+        "minLength": 2,
+        "description": "The name of the primary key",
+        "x-prompt": "What is the name of the primary key?",
+        "required": [ "the name of the primary key is required?" ],
+        "default": "id"
+      },
+      "primaryKeyType": {
+        "type": "string",
+        "description": "The type of the primary key",
+        "required": [ "the type of the primary key is required?" ],
+        "default": "number",
+        "enum": [
+          "number",
+          "string"
+        ],
+        "x-prompt": {
+          "message": "What is the type of the primary key?",
+          "items": [
+            { "value": "number",  "label": "number" },
+            { "value": "string",  "label": "string" }
+          ]
         }
-      } 
+        
+      }    
     }
    }

@@ -13,14 +13,14 @@ export class EntityListViewComponent extends ListViewComponent<Entity> implement
 
   constructor() {
     super({ page: (state) => state.entitystate.page, entity: (state) => state.entitystate.entity },
-      () => { return this.getEntitys() }, ['id', 'firstName', 'lastName', 'country', 'actions']);
+      () => { return this.getEntitys() }, [<% for column in displayedColumns %> '<%column%>', <%end%> 'actions']);
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
-    const id = Number(this.getParam('id'));
-    if (id) {
-      this.getEntity(id);
+    const <%primaryKey%> = Number(this.getParam('<%primaryKey%>'));
+    if (<%primaryKey%>) {
+      this.getEntity(<%primaryKey%>);
     }
   }
 
@@ -28,22 +28,16 @@ export class EntityListViewComponent extends ListViewComponent<Entity> implement
     this.getEntities(new GetEntitys(this.page.number, this.page.size));
   }
 
-  getEntity(id: number): void {
-    this.getEntity(new GetEntity(id), EntityDetailsComponent);
+  getEntity(<%primaryKey%>: <%primaryKeyType%>): void {
+    this.getEntity(new GetEntity(<%primaryKey%>), EntityDetailsComponent);
   }
 
-  editEntity(id: number, event: Event): void {
-    this.editEntity(new GetEntity(id), EntityDetailsComponent, event);
+  editEntity(<%primaryKey%>: <%primaryKeyType%>, event: Event): void {
+    this.editEntity(new GetEntity(<%primaryKey%>), EntityDetailsComponent, event);
   }
 
-  deleteEntity(id: number, event: Event): void {
-    this.deleteEntity(new DeleteEntity(id), event);
-  }
-
-  override handleSorting(): void {
-    this.dataSource.sortingDataAccessor = (entity, property) => {
-      return property == 'country' ? entity.country.name : this.getProperty(entity, property as keyof Entity);
-    };
+  deleteEntity(<%primaryKey%>: <%primaryKeyType%>, event: Event): void {
+    this.deleteEntity(new DeleteEntity(<%primaryKey%>), event);
   }
 
   override handleSearch(query: string): void {

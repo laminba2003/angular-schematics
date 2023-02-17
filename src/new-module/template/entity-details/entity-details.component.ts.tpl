@@ -15,7 +15,7 @@ export class EntityDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    window.history.replaceState({}, '', `/entitys/${this.entity.id}`);
+    window.history.replaceState({}, '', `/entitys/${this.entity.<%primaryKey%>}`);
     this.dialogRef.afterClosed().subscribe(() => {
       window.history.replaceState({}, '', `/entitys`);
     });
