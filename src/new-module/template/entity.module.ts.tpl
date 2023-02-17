@@ -19,4 +19,4 @@ import { EntityState } from './entity.state';
     NgxsModule.forFeature([EntityState])
   ]
 })
-export class EntitysModule { }
+export class EntityModule { }

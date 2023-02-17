@@ -1,5 +1,5 @@
 {
-  "name": "new-project",
+  "name": "new-module",
   "version": "0.0.0",
   "description": "A blank schematics",
   "scripts": {
@@ -15,7 +15,6 @@
   "dependencies": {
     "@angular-devkit/core": "^13.0.0",
     "@angular-devkit/schematics": "^13.0.0",
-    "@mojojs/template": "^1.6.0",
     "@scaffdog/engine": "^2.4.0",
     "@schematics/angular": "^13.0.0",
     "typescript": "~4.4.3"

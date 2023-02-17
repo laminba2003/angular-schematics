@@ -1,39 +1,84 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { join, normalize } from '@angular-devkit/core';
+import { apply, asSource, chain, FileEntry, forEach, MergeStrategy, mergeWith, move, Rule, SchematicContext, SchematicsException, Source, Tree, url } from '@angular-devkit/schematics';
 import { render, createContext } from '@scaffdog/engine';
+import { getWorkspace } from '@schematics/angular/utility/workspace';
+import * as ts from 'typescript';
+import { InsertChange } from '@schematics/angular/utility/change';
+import { addRouteDeclarationToModule } from '@schematics/angular/utility/ast-utils';
 
 export function newModule(options: any): Rule {
 
-  return (tree: Tree, _context: SchematicContext) => {
-    console.log('generating a new module');
-    createFiles(tree, "./src/new-module/template", options);
-    return tree;
+  return async (tree: Tree, _context: SchematicContext) => {
+    await setupOptions(tree, options);
+    options.displayedColumns = options.displayedColumns.split(",").map(String);
+    const moduleSource = apply(url('./template'), [
+      forEach(entry => template(entry, options)),
+      move(normalize(options.path + '/app/modules/' + options.plural))
+    ]);
+    options.displayedColumns = options.displayedColumns.filter((column: any) => column != options.primaryKey);
+    const modelSource = apply(url('./model'), [
+      forEach(entry => template(entry, options)),
+      move(normalize(options.path + '/app/model'))
+    ]);
+    return chain([mergeWith(moduleSource, MergeStrategy.Overwrite),
+    mergeWith(modelSource, MergeStrategy.Overwrite),
+    mergeWith(addRoute(tree, options), MergeStrategy.Overwrite)]);
   };
 
 }
 
-export function createFiles(tree: Tree, root: string, options: any) {
-  const dir = "src/app/modules";
-  tree.getDir(root)
-    .visit(filePath => {
-      if (filePath.endsWith(".tpl")) {
-        let content = String(tree.read(filePath));
-        const entity = options.entity;
-        const plural = options.plural;
-        content = content
-          .replace(/entitys/g, plural)
-          .replace(/Entitys/g, plural.charAt(0).toUpperCase() + plural.slice(1))
-          .replace(/entity/g, entity)
-          .replace(/Entity/g, entity.charAt(0).toUpperCase() + entity.slice(1))
-        const context = createContext({
-          tags: ['<%', '%>'],
-          variables: new Map([['displayedColumns', options.displayedColumns.split(",").map(String)],
-          ['primaryKey', options.primaryKey], ['primaryKeyType', options.primaryKeyType]])
-        });
-        content = render(content, context);
-        const name = filePath.replace("/src/new-module/template/", "").replace(/entity/g, entity).replace(".tpl", "")
-        tree.create(dir + "/" + name, content);
-      } else {
-        createFiles(tree, filePath, options);
-      }
+export async function setupOptions(tree: Tree, options: any): Promise<Tree> {
+  const workspace = await getWorkspace(tree);
+  if (!options.project) {
+    options.project = workspace.projects.keys().next().value;
+  }
+  const project = workspace.projects.get(options.project);
+  if (!project) {
+    throw new SchematicsException(`Invalid project name: ${options.project}`);
+  }
+  options.path = join(normalize(project.root), 'src');
+  return tree;
+}
+
+export function template(entry: FileEntry, options: any) {
+  if (entry.path.endsWith(".tpl")) {
+    const entity = options.entity;
+    const plural = options.plural;
+    const content = String(entry.content)
+      .replace(/entitys/g, plural)
+      .replace(/Entitys/g, plural.charAt(0).toUpperCase() + plural.slice(1))
+      .replace(/entity/g, entity)
+      .replace(/Entity/g, entity.charAt(0).toUpperCase() + entity.slice(1));
+    const context = createContext({
+      tags: ['<%', '%>'],
+      variables: new Map([['displayedColumns', options.displayedColumns],
+      ['primaryKey', options.primaryKey], ['primaryKeyType', options.primaryKeyType]])
     });
+    return {
+      content: Buffer.from(render(content, context)),
+      path: normalize(entry.path.replace(/entity/g, entity).replace(".tpl", ""))
+    };
+  }
+  return entry;
+}
+
+export function addRoute(tree: Tree, options: any): Source {
+  const modulePath = normalize(options.path + '/app/app-routing.module.ts');
+  const moduleContent = String(tree.read(modulePath));
+  const source = ts.createSourceFile(modulePath, moduleContent, ts.ScriptTarget.Latest, true);
+  const updateRecorder = tree.beginUpdate(modulePath);
+  const name = options.entity.charAt(0).toUpperCase() + options.entity.slice(1);
+  const change = addRouteDeclarationToModule(
+    source,
+    "./src/app",
+    `{
+      path: '${options.plural}',
+      component: LayoutComponent,
+      loadChildren: () => import('./modules/${options.plural}/${options.entity}.module').then(m => m.${name}Module),
+      canActivate: [AuthGuard]
+     }`
+  ) as InsertChange;
+  updateRecorder.insertLeft(change.pos, change.toAdd);
+  tree.commitUpdate(updateRecorder);
+  return () => tree;
 }

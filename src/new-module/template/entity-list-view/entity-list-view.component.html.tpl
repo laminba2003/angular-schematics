@@ -12,7 +12,7 @@
 <div class="flex flex-nowrap">
     <table mat-table [dataSource]="dataSource" matSort  class="w-full">
         <% for column in displayedColumns %>
-        <ng-container matColumnDef="<%column%>>">
+        <ng-container matColumnDef="<%column%>">
             <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> No. </th>
             <td mat-cell *matCellDef="let entity" class="text-sm cursor-pointer" (click)="getEntity(entity.<%primaryKey%>)">
                 {{entity.<%column%>}} </td>
