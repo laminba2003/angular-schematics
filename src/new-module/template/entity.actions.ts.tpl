@@ -1,4 +1,4 @@
-import { Entity } from '../../model/entity';
+import { Entity } from '@app/model/entity';
 
 export class GetEntitys {
     static readonly type = '[Entitys] Fetch';

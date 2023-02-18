@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Entity } from './../../../model/entity';
+import { Entity } from '@app/model/entity';
 import { EntityDetailsComponent } from '../entity-details/entity-details.component';
 import { DeleteEntity, GetEntity, GetEntitys, SearchEntitys } from './../entity.actions';
-import { ListViewComponent, State } from '../../../components/ListViewComponent';
+import { ListViewComponent, State } from '@components/ListViewComponent';
 
 @Component({
   selector: 'app-entity-list-view',

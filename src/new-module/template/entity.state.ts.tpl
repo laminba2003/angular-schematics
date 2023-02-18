@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Action, State, StateContext } from "@ngxs/store";
 import { tap } from "rxjs";
-import { Page } from "../../model/page";
-import { Entity } from "../../model/entity";
+import { Page } from "@app/model/page";
+import { Entity } from "@app/model/entity";
 import { EntityService } from './entity-service';
 import { DeleteEntity, GetEntity, GetEntitys, SearchEntitys } from './entity.actions';
 

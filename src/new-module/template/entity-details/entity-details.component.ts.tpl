@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Entity } from '../../../model/entity';
+import { Entity } from '@app/model/entity';
 import { EntityListViewComponent } from './../entity-list-view/entity-list-view.component';
 
 @Component({
