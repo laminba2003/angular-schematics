@@ -6,6 +6,7 @@ import { ComponentsModule } from '@components/components.module';
 import { EntityDetailsComponent } from './entity-details/entity-details.component';
 import { NgxsModule } from '@ngxs/store';
 import { EntityState } from './entity.state';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { EntityState } from './entity.state';
     CommonModule,
     EntityRoutingModule,
     ComponentsModule,
+    DirectivesModule,
     NgxsModule.forFeature([EntityState])
   ]
 })

@@ -32,12 +32,12 @@ export class EntityListViewComponent extends ListViewComponent<Entity> implement
     this.getResource(new GetEntity(<%primaryKey%>), EntityDetailsComponent);
   }
 
-  editEntity(<%primaryKey%>: <%primaryKeyType%>, event: Event): void {
-    this.editResource(new GetEntity(<%primaryKey%>), EntityDetailsComponent, event);
+  editEntity(<%primaryKey%>: <%primaryKeyType%>): void {
+    this.editResource(new GetEntity(<%primaryKey%>), EntityDetailsComponent);
   }
 
-  deleteEntity(<%primaryKey%>: <%primaryKeyType%>, event: Event): void {
-    this.deleteResource(new DeleteEntity(<%primaryKey%>), event);
+  deleteEntity(<%primaryKey%>: <%primaryKeyType%>): void {
+    this.deleteResource(new DeleteEntity(<%primaryKey%>));
   }
 
   override handleSearch(query: string): void {
