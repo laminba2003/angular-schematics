@@ -16,8 +16,7 @@ export class EntityListViewComponent extends ListViewComponent<Entity> implement
      () => { return this.getEntitys() }, [<% for column in displayedColumns %> '<%column%>', <%end%> 'actions']);
   }
 
-  override ngOnInit(): void {
-    super.ngOnInit();
+  ngOnInit(): void {
     <% if primaryKeyType == "number" %>const <%primaryKey%> = Number(this.getParam('<%primaryKey%>'));<% else %>const <%primaryKey%> = this.getParam('<%primaryKey%>');<% end %>
     if (<%primaryKey%>) {
       this.getEntity(<%primaryKey%>);
