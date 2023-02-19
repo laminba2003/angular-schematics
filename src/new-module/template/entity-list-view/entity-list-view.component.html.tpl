@@ -41,7 +41,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let entity; columns: displayedColumns;"  (click)="getEntity(entity.<%primaryKey%>)"
-          [ngClass]="{'table-loading': isLoading$ | async}"></tr>
+          [ngClass]="{'table-loading': isLoading$ | async, 'highlight': selected.<%primaryKey%> && selected.<%primaryKey%> == entity.<%primaryKey%>}"></tr>
         <tr class="mat-row" *matNoDataRow style="text-align:center">
             <td class="mat-cell" [attr.colspan]="displayedColumns.length">
               No records
