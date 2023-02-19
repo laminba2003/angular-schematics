@@ -62,24 +62,23 @@ export function template(entry: FileEntry, options: Schema) {
 }
 
 export function addRoute(tree: Tree, options: Schema): Source {
-  if (options.routing) {
-    const modulePath = normalize(options.path + '/app/app-routing.module.ts');
-    const moduleContent = String(tree.read(modulePath));
-    const source = ts.createSourceFile(modulePath, moduleContent, ts.ScriptTarget.Latest, true);
-    const updateRecorder = tree.beginUpdate(modulePath);
-    const name = options.entity.charAt(0).toUpperCase() + options.entity.slice(1);
-    const change = addRouteDeclarationToModule(
-      source,
-      "./src/app",
-      `{
+  const modulePath = normalize(options.path + '/app/app-routing.module.ts');
+  const moduleContent = String(tree.read(modulePath));
+  const source = ts.createSourceFile(modulePath, moduleContent, ts.ScriptTarget.Latest, true);
+  const updateRecorder = tree.beginUpdate(modulePath);
+  const name = options.entity.charAt(0).toUpperCase() + options.entity.slice(1);
+  const change = addRouteDeclarationToModule(
+    source,
+    "./src/app",
+    `{
       path: '${options.plural}',
       component: LayoutComponent,
       loadChildren: () => import('./modules/${options.plural}/${options.entity}.module').then(m => m.${name}Module),
       canActivate: [AuthGuard]
      }`
-    ) as InsertChange;
-    updateRecorder.insertLeft(change.pos, change.toAdd);
-    tree.commitUpdate(updateRecorder);
-  }
+  ) as InsertChange;
+  updateRecorder.insertLeft(change.pos, change.toAdd);
+  tree.commitUpdate(updateRecorder);
+
   return () => tree;
 }

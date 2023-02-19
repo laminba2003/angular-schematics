@@ -18,7 +18,7 @@
       "displayedColumns": {
         "type": "string",
         "description": "The name of the columns.",
-        "x-prompt": "What is the name of the columns? [comma-separated]",
+        "x-prompt": "What is the name of the columns? [comma-separated]"
       },
       "primaryKey": {
         "type": "string",
@@ -41,12 +41,6 @@
             { "value": "string",  "label": "string" }
           ]
         }    
-      },
-      "routing": {
-        "type": "boolean",
-        "description": "add a new route to lazily load the module",
-        "default": "true",
-        "x-prompt":  "Would you like to add a new route?"
       },
       "directory": {
         "type": "string",

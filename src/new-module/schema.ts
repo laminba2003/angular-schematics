@@ -6,7 +6,6 @@ export class Schema {
     primaryKey: string;
     primaryKeyType: string;
     path: string;
-    routing: boolean;
     project: string;
     directory: string;
 }
