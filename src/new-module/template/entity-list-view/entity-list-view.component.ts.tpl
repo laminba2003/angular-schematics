@@ -3,6 +3,7 @@ import { Entity } from '@app/model/entity';
 import { EntityDetailsComponent } from '../entity-details/entity-details.component';
 import { DeleteEntity, GetEntity, GetEntitys, SearchEntitys } from './../entity.actions';
 import { ListViewComponent, State } from '@components/ListViewComponent';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-entity-list-view',
@@ -11,13 +12,13 @@ import { ListViewComponent, State } from '@components/ListViewComponent';
 })
 export class EntityListViewComponent extends ListViewComponent<Entity> implements OnInit {
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     super(new State(state => state.entitystate.page, state => state.entitystate.entity),
      () => { return this.getEntitys() }, [<% for column in displayedColumns %> '<%column%>', <%end%> 'actions']);
   }
 
   ngOnInit(): void {
-    <% if primaryKeyType == "number" %>const <%primaryKey%> = Number(this.getParam('<%primaryKey%>'));<% else %>const <%primaryKey%> = this.getParam('<%primaryKey%>');<% end %>
+    <% if primaryKeyType == "number" %>const <%primaryKey%> = Number(this.route.snapshot.paramMap.get('<%primaryKey%>'));<% else %>const <%primaryKey%> = this.route.snapshot.paramMap.get('<%primaryKey%>');<% end %>
     if (<%primaryKey%>) {
       this.getEntity(<%primaryKey%>);
     }
