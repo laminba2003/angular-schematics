@@ -1,19 +1,19 @@
 <app-header title="Entitys" [template]="buttons"></app-header>
 
 <ng-template #buttons>
-    <button mat-icon-button class="header-icon">
+    <button mat-icon-button *ngIf="auth.hasRoles([]) | async">
         <mat-icon>entity_add</mat-icon>
     </button>
-    <button mat-icon-button (click)="refresh()" class="header-icon">
+    <button mat-icon-button (click)="refresh()">
         <mat-icon>refresh</mat-icon>
     </button>
 </ng-template>
 
 <div class="flex flex-nowrap">
-    <table mat-table [dataSource]="dataSource" matSort  class="w-full">
+    <table mat-table [dataSource]="dataSource" matSort>
         <% for column in displayedColumns %>
         <ng-container matColumnDef="<%column%>">
-            <th mat-header-cell *matHeaderCellDef class="text-sm" mat-sort-header> <%column%> </th>
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header> <%column%> </th>
             <td mat-cell *matCellDef="let entity">
                 <div>{{entity.<%column%>}}</div>     
             </td>
@@ -21,18 +21,16 @@
         <% end %>
        
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef class="text-sm"> </th>
-            <td mat-cell *matCellDef="let entity" class="text-sm  cursor-pointer">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let entity" cursor-pointer">
                 <div>
-                    <div class="float-right" *ngIf="entity.<%primaryKey%>">
+                    <div *ngIf="entity.<%primaryKey%>">
                         <button appDialog (click)="editEntity(entity.<%primaryKey%>);"
-                            class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button">
                             <i class="fas fa-edit"></i>
                         </button>
 
                         <button appDialog (click)="deleteEntity(entity.<%primaryKey%>)" *ngIf="auth.hasRoles([]) | async"
-                            class="bg-white-500 text-black active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                             type="button">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -43,7 +41,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let entity; columns: displayedColumns;"  (click)="getEntity(entity.<%primaryKey%>)"
-          [ngClass]="{'table-loading': isLoading$ | async, 'text-sm':true, 'cursor-pointer': !(isLoading$ | async)}"></tr>
+          [ngClass]="{'table-loading': isLoading$ | async}"></tr>
         <tr class="mat-row" *matNoDataRow style="text-align:center">
             <td class="mat-cell" [attr.colspan]="displayedColumns.length">
               No records
@@ -51,6 +49,5 @@
         </tr>
     </table>
 </div>
-<div class="w-full">
-    <mat-paginator [length]="page.totalElements" [pageSizeOptions] = "[5, 10, 25]" [showFirstLastButtons]="true" [pageSize]="page.size" (page)="handlePagination($event)"></mat-paginator>
-</div>
+
+<mat-paginator [length]="page.totalElements" [pageSizeOptions] = "[5, 10, 25]" [showFirstLastButtons]="true" [pageSize]="page.size" (page)="handlePagination($event)"></mat-paginator>
