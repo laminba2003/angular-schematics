@@ -22,10 +22,10 @@
        
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let resource" cursor-pointer">
+            <td mat-cell *matCellDef="let resource">
                 <div>
                     <div *ngIf="resource.<%primaryKey%>">
-                        <button appDialog (click)="editResource(resource.<%primaryKey%>);"
+                        <button appDialog (click)="updateResource(resource.<%primaryKey%>)"
                             type="button">
                             <i class="fas fa-edit"></i>
                         </button>
