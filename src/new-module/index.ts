@@ -41,13 +41,15 @@ export async function setupOptions(tree: Tree, options: Schema): Promise<Tree> {
 
 export function template(entry: FileEntry, options: Schema) {
   if (entry.path.endsWith(".tpl")) {
-    const entity = options.entity;
+    const resource = options.resource;
     const plural = options.plural;
     const content = String(entry.content)
-      .replace(/entitys/g, plural)
-      .replace(/Entitys/g, plural.charAt(0).toUpperCase() + plural.slice(1))
-      .replace(/entity/g, entity)
-      .replace(/Entity/g, entity.charAt(0).toUpperCase() + entity.slice(1));
+      .replace(/resources/g, plural)
+      .replace(/Resources/g, plural.charAt(0).toUpperCase() + plural.slice(1))
+      .replace(/resource/g, resource)
+      .replace(/Resource/g, resource.charAt(0).toUpperCase() + resource.slice(1))
+      .replace(/Entity/g, "Resource")
+      .replace(/Entities/g, "Resources");
     const context = createContext({
       tags: ['<%', '%>'],
       variables: new Map([['displayedColumns', options.columns as any],
@@ -55,30 +57,31 @@ export function template(entry: FileEntry, options: Schema) {
     });
     return {
       content: Buffer.from(render(content, context)),
-      path: normalize(entry.path.replace(/entity/g, entity).replace(".tpl", ""))
+      path: normalize(entry.path.replace(/resource/g, resource).replace(".tpl", ""))
     };
   }
   return entry;
 }
 
 export function addRoute(tree: Tree, options: Schema): Source {
-  const modulePath = normalize(options.path + '/app/app-routing.module.ts');
-  const moduleContent = String(tree.read(modulePath));
-  const source = ts.createSourceFile(modulePath, moduleContent, ts.ScriptTarget.Latest, true);
-  const updateRecorder = tree.beginUpdate(modulePath);
-  const name = options.entity.charAt(0).toUpperCase() + options.entity.slice(1);
-  const change = addRouteDeclarationToModule(
-    source,
-    "./src/app",
-    `{
+  if (options.routing) {
+    const modulePath = normalize(options.path + '/app/app-routing.module.ts');
+    const moduleContent = String(tree.read(modulePath));
+    const source = ts.createSourceFile(modulePath, moduleContent, ts.ScriptTarget.Latest, true);
+    const updateRecorder = tree.beginUpdate(modulePath);
+    const name = options.resource.charAt(0).toUpperCase() + options.resource.slice(1);
+    const change = addRouteDeclarationToModule(
+      source,
+      "./src/app",
+      `{
       path: '${options.plural}',
-      component: LayoutComponent,
-      loadChildren: () => import('./modules/${options.plural}/${options.entity}.module').then(m => m.${name}Module),
+      component: AdminComponent,
+      loadChildren: () => import('./modules/${options.plural}/${options.resource}.module').then(m => m.${name}Module),
       canActivate: [AuthGuard]
      }`
-  ) as InsertChange;
-  updateRecorder.insertLeft(change.pos, change.toAdd);
-  tree.commitUpdate(updateRecorder);
-
+    ) as InsertChange;
+    updateRecorder.insertLeft(change.pos, change.toAdd);
+    tree.commitUpdate(updateRecorder);
+  }
   return () => tree;
 }

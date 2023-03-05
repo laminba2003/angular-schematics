@@ -1,5 +1,5 @@
 export class Schema {
-    entity: string;
+    resource: string;
     plural: string;
     columns: string[];
     displayedColumns: string;
@@ -8,4 +8,5 @@ export class Schema {
     path: string;
     project: string;
     directory: string;
+    routing: boolean;
 }

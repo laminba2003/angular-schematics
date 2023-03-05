@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntityListViewComponent } from './entity-list-view.component';
+import { ResourceListViewComponent } from './resource-list-view.component';
 
-describe('EntityListViewComponent', () => {
-  let component: EntityListViewComponent;
-  let fixture: ComponentFixture<EntityListViewComponent>;
+describe('ResourceListViewComponent', () => {
+  let component: ResourceListViewComponent;
+  let fixture: ComponentFixture<ResourceListViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EntityListViewComponent ]
+      declarations: [ ResourceListViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EntityListViewComponent);
+    fixture = TestBed.createComponent(ResourceListViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntityDetailsComponent } from './entity-details.component';
+import { ResourceDetailsComponent } from './resource-details.component';
 
-describe('EntityDetailsComponent', () => {
-  let component: EntityDetailsComponent;
-  let fixture: ComponentFixture<EntityDetailsComponent>;
+describe('ResourceDetailsComponent', () => {
+  let component: ResourceDetailsComponent;
+  let fixture: ComponentFixture<ResourceDetailsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EntityDetailsComponent ]
+      declarations: [ ResourceDetailsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EntityDetailsComponent);
+    fixture = TestBed.createComponent(ResourceDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

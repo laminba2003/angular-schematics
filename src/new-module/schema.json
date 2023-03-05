@@ -5,15 +5,15 @@
     "type": "object",
     "description": "Initialise a new module",
     "properties": {
-      "entity": {
+      "resource": {
         "type": "string",
-        "description": "the name of the entity?",
-        "x-prompt": "What is the name of the entity?"
+        "description": "the name of the resource?",
+        "x-prompt": "What is the name of the resource?"
       },
       "plural": {
         "type": "string",
-        "description": "the plural name of the entity?",
-        "x-prompt": "what is the plural name of the entity?"
+        "description": "the plural name of the resource?",
+        "x-prompt": "what is the plural name of the resource?"
       },
       "displayedColumns": {
         "type": "string",
@@ -47,7 +47,13 @@
         "description": "The name of the parent directory",
         "x-prompt": "In which folder do you like to store the new module?",
         "default": "modules"
+      },
+      "routing": {
+        "type": "boolean",
+        "description": "If true, add a new route in app routing module",
+        "x-prompt": "Do you want to create a new route for this module?",
+        "default": "true"
       }  
     },
-    "required": ["entity", "plural","primaryKey", "primaryKeyType", "displayedColumns", "routing"]
+    "required": ["resource", "plural","primaryKey", "primaryKeyType", "displayedColumns", "routing"]
    }

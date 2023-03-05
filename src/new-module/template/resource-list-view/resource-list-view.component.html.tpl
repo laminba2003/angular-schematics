@@ -1,8 +1,8 @@
-<app-header title="Entitys" [template]="buttons"></app-header>
+<app-header title="Resources" [template]="buttons"></app-header>
 
 <ng-template #buttons>
     <button mat-icon-button *ngIf="auth.hasRoles([]) | async">
-        <mat-icon>entity_add</mat-icon>
+        <mat-icon>resource_add</mat-icon>
     </button>
     <button mat-icon-button (click)="refresh()">
         <mat-icon>refresh</mat-icon>
@@ -14,23 +14,23 @@
         <% for column in displayedColumns %>
         <ng-container matColumnDef="<%column%>">
             <th mat-header-cell *matHeaderCellDef  mat-sort-header> <%column%> </th>
-            <td mat-cell *matCellDef="let entity">
-                <div>{{entity.<%column%>}}</div>     
+            <td mat-cell *matCellDef="let resource">
+                <div>{{resource.<%column%>}}</div>     
             </td>
         </ng-container>
         <% end %>
        
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let entity" cursor-pointer">
+            <td mat-cell *matCellDef="let resource" cursor-pointer">
                 <div>
-                    <div *ngIf="entity.<%primaryKey%>">
-                        <button appDialog (click)="editEntity(entity.<%primaryKey%>);"
+                    <div *ngIf="resource.<%primaryKey%>">
+                        <button appDialog (click)="editResource(resource.<%primaryKey%>);"
                             type="button">
                             <i class="fas fa-edit"></i>
                         </button>
 
-                        <button appDialog (click)="deleteEntity(entity.<%primaryKey%>)" *ngIf="auth.hasRoles([]) | async"
+                        <button appDialog (click)="deleteResource(resource.<%primaryKey%>)" *ngIf="auth.hasRoles([]) | async"
                             type="button">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -40,8 +40,8 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let entity; columns: displayedColumns;"  (click)="getEntity(entity.<%primaryKey%>)"
-          [ngClass]="{'table-loading': isLoading$ | async, 'highlight': selected.<%primaryKey%> && selected.<%primaryKey%> == entity.<%primaryKey%>}"></tr>
+        <tr mat-row *matRowDef="let resource; columns: displayedColumns;"  (click)="getResource(resource.<%primaryKey%>)"
+          [ngClass]="{'table-loading': isLoading$ | async, 'highlight': selected.<%primaryKey%> && selected.<%primaryKey%> == resource.<%primaryKey%>}"></tr>
         <tr class="mat-row" *matNoDataRow style="text-align:center">
             <td class="mat-cell" [attr.colspan]="displayedColumns.length">
               No records
